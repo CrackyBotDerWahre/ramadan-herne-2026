@@ -1,10 +1,12 @@
 const CONFIG = {
     city: 'Herne',
     country: 'Germany',
-    method: 3
+    method: 3,
+    mawaqitId: 'msjd-ly-bn-by-tlb-herne-44649-germany'
 };
 
-async function fetchTimings() {
+async function fetchData() {
+    // We use Aladhan for reliable JSON, Mawaqit as reference (visual)
     const today = new Date();
     const dateStr = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
     const url = `https://api.aladhan.com/v1/timingsByCity/${dateStr}?city=${CONFIG.city}&country=${CONFIG.country}&method=${CONFIG.method}`;
@@ -14,7 +16,6 @@ async function fetchTimings() {
         const json = await response.json();
         return json.data;
     } catch (e) {
-        console.error("API Error", e);
         return null;
     }
 }
@@ -25,8 +26,8 @@ function updateUI(data) {
     const timings = data.timings;
     const date = data.date;
 
-    document.getElementById('current-date').innerText = date.readable.toUpperCase();
-    document.getElementById('hijri-date').innerText = `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year}`;
+    document.getElementById('current-gregorian').innerText = date.readable.toUpperCase();
+    document.getElementById('hijri-date-text').innerText = `${date.hijri.day}. ${date.hijri.month.en}`;
 
     const grid = document.getElementById('prayer-grid');
     grid.innerHTML = '';
@@ -41,7 +42,14 @@ function updateUI(data) {
         const pDate = new Date();
         pDate.setHours(h, m, 0);
 
-        const diff = pDate - now;
+        let diff = pDate - now;
+        
+        // If prayer is in the past, check if it's for tomorrow (e.g. Fajr after Isha)
+        if (diff < 0) {
+            pDate.setDate(pDate.getDate() + 1);
+            diff = pDate - now;
+        }
+
         const isNext = diff > 0 && diff < minDiff;
         
         if (isNext) {
@@ -59,7 +67,7 @@ function updateUI(data) {
     });
 
     if (nextPrayer) {
-        document.getElementById('timer-label').innerText = `NÄCHSTE: ${nextPrayer.name.toUpperCase()}`;
+        document.getElementById('timer-label').innerText = `NEXT: ${nextPrayer.name.toUpperCase()}`;
         document.getElementById('next-prayer-time').innerText = nextPrayer.time;
         startCountdown(nextPrayer.date);
     }
@@ -68,31 +76,21 @@ function updateUI(data) {
 let timerInterval;
 function startCountdown(target) {
     if (timerInterval) clearInterval(timerInterval);
-    
     function tick() {
-        const now = new Date();
-        const diff = target - now;
-
-        if (diff <= 0) {
-            clearInterval(timerInterval);
-            init(); // Refresh for next prayer
-            return;
-        }
-
+        const diff = target - new Date();
+        if (diff <= 0) { init(); return; }
         const h = Math.floor(diff / 3600000);
         const m = Math.floor((diff % 3600000) / 60000);
         const s = Math.floor((diff % 60000) / 1000);
-
         document.getElementById('countdown').innerText = 
             `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
-
     tick();
     timerInterval = setInterval(tick, 1000);
 }
 
 async function init() {
-    const data = await fetchTimings();
+    const data = await fetchData();
     updateUI(data);
 }
 

@@ -3,33 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramadan Kalender 2026 - Herne</title>
+    <title>Ramadan 2026 | Herne | Made by Ismail</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="glass-container">
-        <header>
-            <h1 id="city-name">HERNE</h1>
-            <p id="current-date">Lade Datum...</p>
-            <div class="hijri-badge" id="hijri-date">Ramadan 1447</div>
+    <div class="app-shell">
+        <div class="noise-overlay"></div>
+        <div class="blob-bg"></div>
+        
+        <nav class="top-nav">
+            <div class="brand">ISMAIL<span>PRO</span></div>
+            <div class="location-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                HERNE, DE
+            </div>
+        </nav>
+
+        <header class="hero">
+            <div class="hijri-container">
+                <span class="hijri-label">RAMADAN 1447</span>
+                <h2 id="hijri-date-text">Lade...</h2>
+            </div>
+            <div class="main-timer-block">
+                <div class="next-label" id="timer-label">NEXT PRAYER</div>
+                <h1 id="next-prayer-time">--:--</h1>
+                <div class="countdown-wrap">
+                    <span class="countdown-val" id="countdown">00:00:00</span>
+                </div>
+            </div>
         </header>
 
-        <main>
-            <div class="main-timer">
-                <span class="label" id="timer-label">NÄCHSTE ZEIT</span>
-                <span class="time" id="next-prayer-time">--:--</span>
-                <span class="countdown" id="countdown">--:--:--</span>
+        <section class="prayer-grid-section">
+            <div class="grid-header">
+                <h3>PRAYER TIMES</h3>
+                <span id="current-gregorian">Feb 27, 2026</span>
             </div>
-
             <div class="prayer-grid" id="prayer-grid">
-                <!-- Prayer times will be injected here -->
+                <!-- Injected via JS -->
             </div>
-        </main>
+        </section>
 
-        <footer>
-            <p>AlphaClaw MedAssist Engine</p>
-        </footer>
+        <section class="marketing-footer">
+            <div class="ismail-sig">
+                <p>MADE WITH ❤️ BY <span>ISMAIL</span></p>
+                <small>ALPHA CLAW TERMINAL • 2026</small>
+            </div>
+        </section>
     </div>
     <script src="app.js"></script>
 </body>
