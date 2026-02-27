@@ -110,6 +110,30 @@ body {
 .prayer-card .p-name { display: block; font-size: 0.7rem; font-weight: 700; color: var(--text-dim); margin-bottom: 8px; }
 .prayer-card .p-time { font-size: 1.5rem; font-weight: 800; }
 
+.calendar-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; overflow: hidden;
+}
+
+.ramadan-table {
+    width: 100%; border-collapse: collapse; font-size: 0.85rem;
+}
+
+.ramadan-table th {
+    background: rgba(255,255,255,0.03); color: var(--accent);
+    padding: 12px; font-weight: 800; text-align: center; border-bottom: 1px solid var(--border);
+}
+
+.ramadan-table td {
+    padding: 12px; text-align: center; border-bottom: 1px solid var(--border);
+}
+
+.ramadan-table tr.today {
+    background: rgba(99, 102, 241, 0.15); font-weight: 800; color: #fff;
+}
+
+.ramadan-table tr:last-child td { border: none; }
+
 .marketing-footer { text-align: center; padding: 40px 0; }
 .ismail-sig p { font-size: 0.9rem; letter-spacing: 2px; font-weight: 600; }
 .ismail-sig span { font-weight: 900; color: var(--accent); }
